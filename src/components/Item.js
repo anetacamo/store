@@ -1,21 +1,30 @@
 import React from "react";
 import "../main.scss";
+import { withRouter } from "react-router-dom";
 
-const Item = ({ title, image, size }) => {
+// withRouter is a higher order component
+// a higher order component is a fc that takes anuy cmp and modifies it in some way and then returns you a modified//powered cmp
+const Item = ({ title, image, size, history, match }) => {
   return (
     // url with string-interaplated value. this allows us to dynamically make styles on our components
+
     <div
       className={`menu-item ${size}`}
-      style={{
-        backgroundImage: `url(${image})`,
-      }}
+      onClick={() => history.push(`${match.url}${title}`)}
     >
-      <div className="content">
-        <h2>{title}</h2>
-        <h3>Shop now</h3>
+      <div
+        className="background-image"
+        style={{
+          backgroundImage: `url(${image})`,
+        }}
+      >
+        <div className="content">
+          <h2>{title}</h2>
+          <h3>Shop now</h3>
+        </div>
       </div>
     </div>
   );
 };
 
-export default Item;
+export default withRouter(Item);

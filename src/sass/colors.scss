@@ -34,6 +34,7 @@
   margin: 0 8px 16px;
   background-size: cover;
   background-position: center center;
+  overflow: hidden;
 
   &:first-child {
     margin-right: 8px;
@@ -47,9 +48,17 @@
   transition-duration: 350ms;
   &:hover {
     cursor: pointer;
+    & .background-image {
+      transform: scale(1.1);
+      transition-duration: 2s;
+    }
     transition-duration: 350ms;
     opacity: 0.75;
   }
+}
+.background-image {
+  height: 100%;
+  widows: 100%;
 }
 .content {
   height: 90px;
