@@ -18,10 +18,11 @@
 }
 
 .directory-menu {
-  width: 100%;
+  width: calc(100% - 16px);
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  padding: 16px 8px;
 }
 .menu-item {
   height: 240px;
@@ -29,22 +30,34 @@
   flex: 1 1 auto;
   align-items: center;
   justify-content: center;
-  border: 1px solid black;
+  //  border: 1px solid black;
   margin: 0 8px 16px;
+  background-size: cover;
+  background-position: center center;
+
   &:first-child {
     margin-right: 8px;
   }
   &:last-child {
     margin-left: 8px;
   }
+  &.large {
+    height: 380px;
+  }
+  transition-duration: 350ms;
+  &:hover {
+    cursor: pointer;
+    transition-duration: 350ms;
+    opacity: 0.75;
+  }
 }
-
 .content {
   height: 90px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  border: 1px solid black;
+  //  border: 1px solid black;
   margin: 16px;
+  background-color: white;
 }
