@@ -11,9 +11,42 @@ h2 {
   font-size: 16px;
   text-transform: uppercase;
 }
-h3 {
+h3,
+li {
   text-transform: uppercase;
   letter-spacing: 1px;
   font-size: 14px;
   font-weight: 300;
+}
+
+li {
+  list-style: none;
+  &:hover {
+    font-weight: 900;
+    transition-duration: 350ms;
+    cursor: pointer;
+  }
+}
+
+a {
+  text-decoration: none;
+}
+
+.animation {
+  position: relative;
+  display: inline-block;
+  &:after {
+    bottom: 0;
+    content: "";
+    display: block;
+    height: 2px;
+    position: absolute;
+    background: red;
+    transition: width 0.3s ease 0s, left 0.3s ease;
+    width: 0;
+    left: 0;
+  }
+  &:hover:after {
+    width: 100%;
+  }
 }
