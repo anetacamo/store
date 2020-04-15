@@ -1,13 +1,31 @@
 button {
   border-radius: 0px;
-  padding: 8px 16px;
-  border: 2px solid black;
+  padding: 12px 24px;
+  border-radius: 4px;
+  border: 2px solid $lightgray;
   outline: none;
-  margin: 8px 0;
+  margin: 12px 0;
   font-size: 14px;
-  letter-spacing: 1px;
-  box-shadow: 4px 4px black;
-  font-weight: 200;
+  letter-spacing: 2px;
+  //box-shadow: 4px 4px $pink;
+  font-weight: 300;
   text-transform: uppercase;
-  color: black;
+  color: $pink;
+  margin-right: 12px;
+  cursor: pointer;
+  &:hover {
+    border: 2px solid $pink;
+    color: white;
+    background-color: $pink;
+    transition-duration: 350ms;
+  }
+}
+
+.button-gray {
+  background-color: $lightgray;
+}
+.button-pink {
+  background-color: $pink;
+  border-color: $pink;
+  color: white;
 }

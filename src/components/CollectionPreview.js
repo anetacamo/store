@@ -1,6 +1,5 @@
 import React from "react";
 import "../main.scss";
-import Directory from "../components/Directory";
 
 const CollectionPreview = ({ title, items }) => {
   return (
@@ -10,15 +9,10 @@ const CollectionPreview = ({ title, items }) => {
         {items
           .filter((item, idx) => idx < 4)
           .map((item) => (
-            <div key={item.id} className="preview menu-item">
-              <div
-                className="image-container"
-                style={{
-                  backgroundImage: `url(${item.imageUrl})`,
-                }}
-              ></div>
+            <div key={item.id} className="menu-item">
+              <img src={item.imageUrl} className="image-container contain" />
               <h3>{item.name}</h3>
-              <h2>{item.price}$</h2>
+              <h3 className="pink">{item.price}$</h3>
               <button>Add to cart</button>
             </div>
           ))}

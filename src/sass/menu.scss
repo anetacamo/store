@@ -1,23 +1,18 @@
-.logo {
-  object-fit: cover;
-  max-width: 120px;
-  margin-bottom: -8px;
-}
-
 .menu {
-  width: calc(100% - 48px);
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  background-color: #ececec;
-  padding: 24px 24px;
-}
-
-.menu-links {
-  display: flex;
-  align-items: flex-end;
-  h3 {
-    margin-left: 24px;
-    @extend .animation;
+  @extend .container;
+  @extend .flex-between;
+  .logo {
+    object-fit: cover;
+    max-width: 120px;
+    margin: -8px;
+    margin-bottom: -13px;
+  }
+  .menu-links {
+    display: flex;
+    align-items: flex-end;
+    h3 {
+      margin-left: 24px;
+      @extend .animation;
+    }
   }
 }

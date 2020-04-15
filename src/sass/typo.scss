@@ -5,10 +5,17 @@ body {
   //  font-family: "Noto Serif", serif;
 }
 
-h2 {
+h1 {
   font-weight: 900;
-  letter-spacing: 2px;
-  font-size: 16px;
+  letter-spacing: 3px;
+  font-size: 48px;
+  text-transform: uppercase;
+}
+
+h2 {
+  font-weight: 600;
+  letter-spacing: 1px;
+  font-size: 14px;
   text-transform: uppercase;
 }
 h3,
@@ -36,12 +43,12 @@ a {
   position: relative;
   display: inline-block;
   &:after {
-    bottom: 0;
+    bottom: -2px;
     content: "";
     display: block;
     height: 2px;
     position: absolute;
-    background: red;
+    background: $pink;
     transition: width 0.3s ease 0s, left 0.3s ease;
     width: 0;
     left: 0;
