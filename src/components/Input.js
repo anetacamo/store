@@ -1,14 +1,13 @@
 import React from "react";
 import "../main.scss";
-import Directory from "../components/Directory";
 
-const Input = ({ title, onChange, value }) => {
+const Input = ({ name, onChange, value, type, label }) => {
   return (
     <div>
-      <label>{title}</label>
+      <label>{label ? label : name}</label>
       <input
-        name={title}
-        type={title}
+        name={name}
+        type={type ? type : name}
         value={value}
         onChange={onChange}
         required

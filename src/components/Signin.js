@@ -1,7 +1,11 @@
 import React from "react";
-import "../main.scss";
+
 import Input from "../components/Input";
+import Signup from "../components/Signup";
+
 import { signInWithGoogle } from "../firebase/firebase.utils";
+
+import "../main.scss";
 
 class Signin extends React.Component {
   constructor() {
@@ -14,6 +18,10 @@ class Signin extends React.Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
+    this.setState({
+      email: "",
+      password: "",
+    });
   };
 
   handleChange = (event) => {
@@ -24,56 +32,41 @@ class Signin extends React.Component {
   render() {
     return (
       <div className="flex-center">
-        <div className="Signin align-right padding bg-gray">
+        <div className="align-right padding bg-gray">
           <div>
             <h1>Log in</h1>
-            <div className="line"></div>
-            <h3>with your mail and password</h3>
+            <p>I have an account.</p>
+            <p>Sign up with your email and password</p>
+            <div className="line" style={{ marginLeft: "auto" }}></div>
           </div>
 
           <form onSubmit={this.handleSubmit}>
             <Input
-              title="email"
+              name="email"
               value={this.state.email}
               onChange={this.handleChange}
             />
             <Input
-              title="password"
+              name="password"
               value={this.state.password}
               onChange={this.handleChange}
             />
             <div>
-              <button>Log in</button>
-              <button class="button-pink" onClick={signInWithGoogle}>
+              <button type="submit">Log in</button>
+              <button
+                className="button-pink"
+                onClick={signInWithGoogle}
+                style={{
+                  marginRight: "0",
+                  backgroundColor: "white",
+                }}
+              >
                 Log in with Google
               </button>
             </div>
           </form>
         </div>
-        <div className="Signin padding">
-          <div>
-            <h1>Sign in</h1>
-            <div className="line"></div>
-            <h3>with your mail and password</h3>
-          </div>
-
-          <form onSubmit={this.handleSubmit}>
-            <Input
-              title="email"
-              value={this.state.email}
-              onChange={this.handleChange}
-            />
-            <Input
-              title="password"
-              value={this.state.password}
-              onChange={this.handleChange}
-            />
-            <div>
-              <button>Sign in</button>
-              <button class="button-gray">Sign in with Google</button>
-            </div>
-          </form>
-        </div>
+        <Signup />
       </div>
     );
   }

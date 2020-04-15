@@ -10,7 +10,11 @@ const CollectionPreview = ({ title, items }) => {
           .filter((item, idx) => idx < 4)
           .map((item) => (
             <div key={item.id} className="menu-item">
-              <img src={item.imageUrl} className="image-container contain" />
+              <img
+                src={item.imageUrl}
+                className="image-container contain"
+                alt="a gallery item very nice"
+              />
               <h3>{item.name}</h3>
               <h3 className="pink">{item.price}$</h3>
               <button>Add to cart</button>

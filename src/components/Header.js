@@ -4,7 +4,7 @@ import logo from "../images/anetacamo_black.png";
 import "../main.scss";
 import { auth } from "../firebase/firebase.utils";
 
-const Header = ({ currentUser }) => {
+const Header = ({ currentuser }) => {
   return (
     <div className="bg-gray">
       <div className="menu">
@@ -13,9 +13,9 @@ const Header = ({ currentUser }) => {
         </Link>
 
         <div className="menu-links">
-          {currentUser ? (
+          {currentuser ? (
             <h3>
-              Hey <span className="pink bold">{currentUser.displayName}</span>
+              Hey <span className="pink bold">{currentuser.displayName}</span>
             </h3>
           ) : null}
           <Link to="/shop">
@@ -24,7 +24,7 @@ const Header = ({ currentUser }) => {
           <Link to="/about">
             <h3>About</h3>
           </Link>
-          {currentUser ? (
+          {currentuser ? (
             <h3 onClick={() => auth.signOut()}>Sign Out</h3>
           ) : (
             <Link to="/signin">

@@ -13,10 +13,17 @@ input {
     color: $pink;
   }
 }
+.bg-gray input,
+.bg-gray button {
+  border-color: white;
+  background-color: $lightgray;
+  color: $pink;
+}
 
 label {
   display: block;
   margin-top: 12px;
+  margin-bottom: 4px;
 }
 
 .hbform {

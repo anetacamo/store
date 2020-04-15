@@ -2,6 +2,7 @@ import firebase from "firebase/app";
 import "firebase/firestore";
 import "firebase/auth";
 
+// snippet copied from firebase
 var config = {
   apiKey: "AIzaSyCPBWdU6KP5OgtjO5Fgg21gH6NxbWHS7_o",
   authDomain: "store-a4da7.firebaseapp.com",
@@ -14,6 +15,39 @@ var config = {
 };
 
 firebase.initializeApp(config);
+
+export const createUserProfileDocument = async (userAuth, additionalData) => {
+  // if noone is signed up, do nothing
+  if (!userAuth) return;
+
+  // look for the snapshot in the database - does the user exist?
+  const userRef = firestore.doc(`users/${userAuth.uid}`);
+
+  const snapshot = await userRef.get();
+  console.log("snapshot" + snapshot);
+
+  // if the document does not exist - we will create it!
+  // For that, we need documentRef object
+  if (!snapshot.exists) {
+    const { displayName, email } = userAuth;
+    const createdAt = new Date();
+
+    // user creation
+    try {
+      await userRef.set({
+        displayName,
+        email,
+        createdAt,
+        ...additionalData,
+      });
+    } catch (error) {
+      console.log("erroe creating user", error.message);
+    }
+  }
+  console.log("snapshot" + snapshot);
+  console.log("userRef" + userRef);
+  return userRef;
+};
 
 export const auth = firebase.auth();
 export const firestore = firebase.firestore();
