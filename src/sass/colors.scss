@@ -12,7 +12,10 @@ $pink: #8048ff;
 .bg-gray {
   background-color: $lightgray;
 }
-
+.bg-black {
+  background-color: black;
+  color: white;
+}
 // scrollbar
 body::-webkit-scrollbar {
   width: 12px;

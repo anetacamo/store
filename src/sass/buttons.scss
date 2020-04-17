@@ -11,7 +11,7 @@ button {
   font-weight: 300;
   text-transform: uppercase;
   color: $pink;
-  margin-right: 12px;
+
   cursor: pointer;
   &:hover {
     border: 2px solid $pink;
@@ -23,6 +23,12 @@ button {
 
 .button-gray {
   background-color: $lightgray;
+}
+.button-black {
+  background-color: black;
+  border-color: black;
+  color: white;
+  border-radius: 0;
 }
 .button-pink {
   background-color: $pink;
