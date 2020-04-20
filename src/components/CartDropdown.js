@@ -1,44 +1,52 @@
 import React from "react";
 import "../main.scss";
+import { withRouter } from "react-router-dom";
+import { FaTimes } from "react-icons/fa";
 
-const CartDropdown = () => {
+const CartDropdown = ({ cartItems, toggleCartHidden, history }) => {
   return (
     <div className="cart">
-      <div className="flex-between" style={{ paddingBottom: "6px" }}>
-        <h3>Item name</h3>
-        <div className="pink"> 33 czk</div>
+      <div class="close-button" onClick={toggleCartHidden}>
+        <FaTimes />
       </div>
-
-      <div className="flex-between" style={{ paddingBottom: "6px" }}>
-        <h3>Item name</h3>
-        <div className="pink"> 33 czk</div>
-      </div>
-
-      <div className="cart-cont">
-        <div className="flex-between" style={{ paddingBottom: "6px" }}>
-          <h3>Item name</h3>
-          <div className="pink"> 33 czk</div>
+      {cartItems.length === 0 ? (
+        <div className="bg-white container">
+          <div className="center">
+            <h4 class="pink">No items here</h4>
+            <p>
+              Looks like your cart is completely empty and its okay. nothing
+              personal, I know.
+            </p>
+          </div>
         </div>
-        <img
-          className="contain"
-          style={{ height: "70px" }}
-          src="https://i.pinimg.com/originals/25/09/22/250922d4342dd8b93ed88dc646ed872c.jpg"
-        />
-      </div>
-      <div className="cart-cont">
-        <div className="flex-between" style={{ paddingBottom: "6px" }}>
-          <h3>Item name</h3>
-          <div className="pink"> 33 czk</div>
+      ) : null}
+      {cartItems.map((item) => (
+        <div className="cart-cont">
+          <div className="flex">
+            <img className="icon-image" src={item.imageUrl} />
+            <div className="container-desc">
+              <h4 class="pink">{item.name}</h4>
+              <h4>
+                {item.quantity ? item.quantity : "1"} x {item.price}$
+              </h4>
+            </div>
+          </div>
         </div>
-        <img
-          className="contain"
-          style={{ height: "70px" }}
-          src="https://i.pinimg.com/originals/25/09/22/250922d4342dd8b93ed88dc646ed872c.jpg"
-        />
-      </div>
-      <button className="button-black">Go to Checkout</button>
+      ))}
+      {cartItems.length ? (
+        <button
+          className="button-black"
+          onClick={() => history.push(`/checkout`)}
+        >
+          Go to Checkout
+        </button>
+      ) : (
+        <button className="button-black" onClick={() => history.push(`/shop`)}>
+          Shop Now
+        </button>
+      )}
     </div>
   );
 };
 
-export default CartDropdown;
+export default withRouter(CartDropdown);

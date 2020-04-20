@@ -1,7 +1,7 @@
 import React from "react";
 import "../main.scss";
 
-const CollectionPreview = ({ title, items }) => {
+const CollectionPreview = ({ title, items, onItemAdd }) => {
   return (
     <div>
       <h3>{title}</h3>
@@ -17,7 +17,7 @@ const CollectionPreview = ({ title, items }) => {
               />
               <h3>{item.name}</h3>
               <h3 className="pink">{item.price}$</h3>
-              <button>Add to cart</button>
+              <button onClick={() => onItemAdd(item)}>Add to cart</button>
             </div>
           ))}
       </div>

@@ -7,7 +7,7 @@ import CartDropdown from "../components/CartDropdown";
 import "../main.scss";
 import { auth } from "../firebase/firebase.utils";
 
-const Header = ({ currentuser }) => {
+const Header = ({ currentuser, cartItems }) => {
   const [open, setOpen] = useState(false);
 
   return (
@@ -19,26 +19,34 @@ const Header = ({ currentuser }) => {
 
         <div className="menu-links">
           {currentuser ? (
-            <h3>
+            <li>
               Hey <span className="pink bold">{currentuser.displayName}</span>
-            </h3>
+            </li>
           ) : null}
           <Link to="/shop">
-            <h3>Shop</h3>
+            <li>Shop</li>
           </Link>
           <Link to="/about">
-            <h3>About</h3>
+            <li>About</li>
           </Link>
           {currentuser ? (
-            <h3 onClick={() => auth.signOut()}>Sign Out</h3>
+            <li onClick={() => auth.signOut()}>Sign Out</li>
           ) : (
             <Link to="/signin">
-              <h3>Sign In</h3>
+              <li>Sign In</li>
             </Link>
           )}
-          <ShopIcon toggleCartHidden={() => setOpen((open) => !open)} />
+          <ShopIcon
+            cartItems={cartItems}
+            toggleCartHidden={() => setOpen((open) => !open)}
+          />
         </div>
-        {open ? <CartDropdown /> : null}
+        {open ? (
+          <CartDropdown
+            cartItems={cartItems}
+            toggleCartHidden={() => setOpen((open) => !open)}
+          />
+        ) : null}
       </div>
     </div>
   );

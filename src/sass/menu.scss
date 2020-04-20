@@ -10,9 +10,10 @@
   .menu-links {
     display: flex;
     align-items: flex-end;
-    h3 {
+    li {
       margin-left: 24px;
       @extend .animation;
+      color: white;
     }
   }
 }

@@ -1,14 +1,24 @@
 import React from "react";
 import "../main.scss";
+import { FaShoppingCart } from "react-icons/fa";
 
 //import { connect } from "react-redux";
 //import { toggleCartHidden } from "./cart.actions.js";
 
 //const ShopIcon = ({ toggleCartHidden }) => {
-const ShopIcon = ({ toggleCartHidden }) => {
+const ShopIcon = ({ toggleCartHidden, cartItems }) => {
+  console.log(toggleCartHidden);
   return (
     <div onClick={toggleCartHidden}>
-      <h3> 0 </h3>
+      <div className="relative">
+        <FaShoppingCart className="shop-icon" />
+      </div>
+      <li style={{ padding: "0px 8px" }}>
+        {cartItems.reduce(
+          (totalCartItems, cartItem) => totalCartItems + cartItem.quantity,
+          0
+        )}
+      </li>
     </div>
   );
 };

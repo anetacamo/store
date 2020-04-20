@@ -11,7 +11,6 @@ button {
   font-weight: 300;
   text-transform: uppercase;
   color: $pink;
-
   cursor: pointer;
   &:hover {
     border: 2px solid $pink;
@@ -34,4 +33,21 @@ button {
   background-color: $pink;
   border-color: $pink;
   color: white;
+}
+
+// special
+.plus-minus {
+  padding: 4px 8px;
+  border: 2px solid $lightgray;
+  color: $pink;
+  cursor: pointer;
+}
+.plus {
+  border-bottom-left-radius: 8px;
+  border-top-left-radius: 8px;
+  border-right: none;
+}
+.minus {
+  border-bottom-right-radius: 8px;
+  border-top-right-radius: 8px;
 }

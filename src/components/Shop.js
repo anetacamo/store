@@ -10,13 +10,18 @@ class Shop extends React.Component {
       collections: SHOP_DATA,
     };
   }
+
   render() {
     const { collections } = this.state;
     return (
       <div>
         <h1>Shop Page</h1>
         {collections.map(({ id, ...otherProps }) => (
-          <CollectionPreview key={id} {...otherProps} />
+          <CollectionPreview
+            key={id}
+            {...otherProps}
+            onItemAdd={this.props.onItemAdd.bind(this)}
+          />
         ))}
       </div>
     );
