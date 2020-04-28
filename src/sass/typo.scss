@@ -1,8 +1,16 @@
 @import url("https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700&family=Open+Sans:wght@300;400;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Bungee+Shade&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Londrina+Sketch&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Bungee+Outline&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Barrio&display=swap");
 
 body {
   font-family: "Open Sans", sans-serif;
-  //  font-family: "Noto Serif", serif;
+  // font-family: "Noto Serif", serif;
+  // font-family: "Bungee Shade", cursive;
+  // font-family: "Bungee Outline", cursive;
+  // font-family: "Londrina Sketch", cursive;
+  //  font-family: "Barrio", cursive;
 }
 
 p,
@@ -20,27 +28,38 @@ p {
   color: #6b6b6b;
   letter-spacing: 0.4px;
   font-weight: 100;
+  font-family: "Noto Serif", serif;
 }
 
+a {
+  color: black;
+}
 h1 {
   font-weight: 700;
   letter-spacing: 1px;
-  font-size: 32px;
+  font-size: 48px;
   margin: 12px 0;
+  font-family: "Londrina Sketch", cursive;
+}
+
+.large {
+  font-size: 100px;
 }
 
 h2 {
   font-weight: 600;
   letter-spacing: 1px;
-  font-size: 18px;
+  font-size: 20px;
+  font-family: "Barrio", cursive;
 }
 
 li,
 h3 {
   text-transform: uppercase;
   letter-spacing: 1px;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 300;
+  font-family: "Barrio", cursive;
 }
 
 h4 {

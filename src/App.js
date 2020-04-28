@@ -1,14 +1,15 @@
 import React from "react";
 import "./main.scss";
 
-import About from "./components/About";
-import Homepage from "./components/Homepage";
+import About from "./components/screens/About";
+import Homepage from "./components/screens/Homepage";
+import SHOP_DATA from "./shopdata.js";
 import Checkout from "./components/Checkout";
 import Header from "./components/Header";
 import Signin from "./components/Signin";
-import Shop from "./components/Shop";
+import Shop from "./components/screens/Shop";
 
-import { Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { auth, createUserProfileDocument } from "./firebase/firebase.utils";
 
 class App extends React.Component {
@@ -17,6 +18,7 @@ class App extends React.Component {
     this.state = {
       currentuser: null,
       cartItems: [],
+      collections: SHOP_DATA,
     };
   }
 
@@ -47,7 +49,6 @@ class App extends React.Component {
           // setState is ASYNCHRONOUS - If we call other function rigth after the setState - setState may not be finsihed yet
           // So we have to pass it as a second function - as a parameter in SetState.
           // then state will call it after it is fully propagated
-          console.log(this.state);
         });
       } else {
         // when the used logs out, we set a userAuth to null
@@ -82,7 +83,6 @@ class App extends React.Component {
     const cartItems = this.state.cartItems;
     const itemToDeduct = cartItems.find((cartItem) => cartItem.id === item.id);
     if (itemToDeduct.quantity === 1) {
-      console.log("only one item");
       this.deleteItemFromCart(item);
     } else {
       const updatedCartItems = cartItems.map((cartItem) =>
@@ -99,49 +99,56 @@ class App extends React.Component {
     const updatedCartItems = cartItems.filter(
       (cartItem) => cartItem.id !== item.id
     );
-    console.log(updatedCartItems);
     this.setState({ cartItems: updatedCartItems });
   };
 
   render() {
     return (
-      //an exact empty url is just slash, homepage will be rendered.
-      <div className="App">
-        <Header
-          currentuser={this.state.currentuser}
-          cartItems={this.state.cartItems}
-        />
+      //an empty url is just slash, homepage will be rendered.
+      <Router>
+        <div className="App">
+          <Header
+            currentuser={this.state.currentuser}
+            cartItems={this.state.cartItems}
+          />
 
-        <div className="container">
-          <Switch>
-            <Route exact path="/" component={Homepage} />
-            <Route
-              exact
-              path="/shop"
-              component={() => (
-                <Shop
-                  onItemAdd={this.addItemToCart.bind(this)}
-                  cartItems={this.state.cartItems}
-                />
-              )}
-            />
-            <Route exact path="/about" component={About} />
-            <Route exact path="/signin" component={Signin} />
-            <Route
-              exact
-              path="/checkout"
-              component={() => (
-                <Checkout
-                  onItemAdd={this.addItemToCart.bind(this)}
-                  cartItems={this.state.cartItems}
-                  onItemRemove={this.removeItemFromCart.bind(this)}
-                  onItemDelete={this.deleteItemFromCart.bind(this)}
-                />
-              )}
-            />
-          </Switch>
+          <div className="container">
+            <Switch>
+              <Route
+                path="/shop"
+                render={(props) => (
+                  <Shop
+                    {...props}
+                    onItemAdd={this.addItemToCart.bind(this)}
+                    cartItems={this.state.cartItems}
+                    collections={this.state.collections}
+                  />
+                )}
+              />
+              <Route path="/about" component={About} />
+              <Route path="/signin" component={Signin} />
+              <Route
+                path="/checkout"
+                render={(props) => (
+                  <Checkout
+                    {...props}
+                    onItemAdd={this.addItemToCart.bind(this)}
+                    cartItems={this.state.cartItems}
+                    onItemRemove={this.removeItemFromCart.bind(this)}
+                    onItemDelete={this.deleteItemFromCart.bind(this)}
+                  />
+                )}
+              />
+              <Route
+                path="/"
+                render={(props) => (
+                  <Homepage {...props} collections={this.state.collections} />
+                )}
+              />
+            </Switch>
+          </div>
         </div>
-      </div>
+      </Router>
     );
   }
 }

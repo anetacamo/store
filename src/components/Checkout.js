@@ -2,6 +2,7 @@ import React from "react";
 import "../main.scss";
 import { withRouter } from "react-router-dom";
 import { FaTimes, FaAngleLeft, FaAngleRight } from "react-icons/fa";
+import StripeButton from "./StripeButton";
 
 const Checkout = ({
   cartItems,
@@ -32,14 +33,19 @@ const Checkout = ({
           <div class="close-button" onClick={() => onItemDelete(item)}>
             <FaTimes />
           </div>
-          <img className="icon-image" src={item.imageUrl} />
+          <img
+            className="icon-image"
+            alt="anetacamo my own logo"
+            src={item.imageUrl}
+          />
           <div className="container-desc">
             <h4>
               {item.name} | <span className="pink">${item.price}</span>
             </h4>
             <p>
-              an optional pretty short desc of the item. I dont even know if its
-              enough space, we'll see. its optional, tho.
+              an optional pretty short desc of the item.
+              <br />I dont even know if its enough space, we'll see. its
+              optional, tho.
             </p>
             <div>
               <h4>
@@ -67,6 +73,7 @@ const Checkout = ({
             <h2>${itemsTotalPrice}</h2>
           </div>
           <button>Go to Checkout</button>
+          <StripeButton price={itemsTotalPrice} />
         </div>
       ) : null}
       <button onClick={() => history.push(`/shop`)}>Keep Shopping</button>

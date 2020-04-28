@@ -7,7 +7,6 @@ import { FaShoppingCart } from "react-icons/fa";
 
 //const ShopIcon = ({ toggleCartHidden }) => {
 const ShopIcon = ({ toggleCartHidden, cartItems }) => {
-  console.log(toggleCartHidden);
   return (
     <div onClick={toggleCartHidden}>
       <div className="relative">

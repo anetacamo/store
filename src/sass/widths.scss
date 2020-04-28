@@ -21,24 +21,45 @@
   padding: 24px;
 }
 
-.directory-menu {
+.menu-item-parent {
+  justify-content: center;
+  margin: -12px;
   display: flex;
   flex-wrap: wrap;
-  margin: -12px;
 }
-
 .menu-item {
-  height: 340px;
-  margin: 12px;
-  min-width: 20%;
+  flex: 1;
+  min-width: 300px;
+  max-width: 360px;
   cursor: pointer;
-  flex: 1 1 auto;
-  background-size: cover;
-  background-position: center center;
-  &.large {
-    height: 380px;
+  padding: 12px;
+  margin: 12px;
+  img {
+    height: 200px;
+  }
+  &.singular {
+    padding: 0;
+    min-width: 160px;
+    max-width: 240px;
+    position: relative;
+    img {
+      height: 300px;
+    }
+    .tag {
+      position: absolute;
+      top: 10px;
+      left: -8px;
+      margin: auto;
+    }
+    svg {
+      position: absolute;
+      bottom: 94px;
+      right: 16px;
+      font-size: 20px;
+    }
   }
 }
+
 .content {
   margin: 24px;
   padding: 24px;
@@ -56,14 +77,20 @@
   display: flex;
   justify-content: center;
 }
-
 .flex-between {
   display: flex;
   justify-content: space-between;
 }
-
+.flex-wrap {
+  display: flex;
+  flex-wrap: wrap;
+}
 .flex {
   display: flex;
+}
+.flex-column {
+  display: flex;
+  flex-direction: column;
 }
 
 .line {
@@ -126,16 +153,7 @@
   align-self: center;
   margin: 8px 16px;
 }
-.shop-icon {
-  color: $pink;
-  position: absolute;
-  font-size: 32px;
-  bottom: -28px;
-  right: 0;
-}
 
-.icon-image {
-  width: 80px;
-  height: 160px;
-  @extend .contain;
+.padding-vert {
+  padding: 24px 0;
 }

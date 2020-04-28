@@ -1,0 +1,16 @@
+.shop-icon {
+  color: $green;
+  position: absolute;
+  font-size: 32px;
+  bottom: -28px;
+  right: 0;
+}
+.icon-image {
+  width: 80px;
+  height: 160px;
+  @extend .contain;
+}
+.image-m {
+  width: 240px;
+  @extend .contain;
+}
