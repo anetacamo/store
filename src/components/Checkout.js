@@ -17,7 +17,7 @@ const Checkout = ({
     0
   );
   return (
-    <div>
+    <div style={{ maxWidth: 580 }}>
       <h1>Your shopping bag items</h1>
       {cartItems.length === 0 ? (
         <div>
@@ -34,7 +34,7 @@ const Checkout = ({
             <FaTimes />
           </div>
           <img
-            className="icon-image"
+            className="checkout-icon cover"
             alt="anetacamo my own logo"
             src={item.imageUrl}
           />

@@ -36,7 +36,7 @@ const Collection = ({ match, collections, onItemAdd }) => {
           <Link to={`/shop/all/${item.id}`}>
             <div key={item.id} className="menu-item center singular">
               <img
-                src={cactus}
+                src={item.imageUrl}
                 alt="man in coffee"
                 className="image-container contain bg-gray"
               />

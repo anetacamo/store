@@ -19,10 +19,10 @@ const CollectionPreview = ({ collections, onItemAdd }) => {
             {collections[item].items
               .filter((item, idx) => idx < 4)
               .map((item) => (
-                <Link to={`/shop/all/${item.id}`} key={item.id}>
-                  <div className="menu-item center singular">
+                <div className="menu-item center singular" key={item.id}>
+                  <Link to={`/shop/all/${item.id}`}>
                     <img
-                      src={logo}
+                      src={item.imageUrl}
                       alt="man in coffee"
                       className="image-container contain bg-gray"
                     />
@@ -32,8 +32,8 @@ const CollectionPreview = ({ collections, onItemAdd }) => {
                     <div className="tag" onClick={() => onItemAdd(item)}>
                       Add to cart
                     </div>
-                  </div>
-                </Link>
+                  </Link>
+                </div>
               ))}
           </div>
         </div>

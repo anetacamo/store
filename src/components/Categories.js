@@ -9,19 +9,19 @@ const Categories = ({ collections }) => {
       <h1 className="padding-vert">Categories</h1>
       <div className="menu-item-parent">
         {collections.map((c) => (
-          <Link to={`/shop/${c.routeName}`} key={c.id}>
-            <div className="menu-item center singular">
+          <div className="menu-item center singular" key={c.id}>
+            <Link to={`/shop/${c.routeName}`}>
               <img
-                src={cactus}
-                alt="two people who like to grow plants"
+                src={c.items[0].imageUrl}
+                alt={c.title}
                 className="contain"
               />
               <div>
                 <h3>shop {c.title}</h3>
                 <h3 className="pink">{c.items.length} items</h3>
-              </div>
-            </div>{" "}
-          </Link>
+              </div>{" "}
+            </Link>
+          </div>
         ))}
       </div>
     </div>

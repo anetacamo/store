@@ -3,11 +3,11 @@ import "./main.scss";
 
 import About from "./components/screens/About";
 import Homepage from "./components/screens/Homepage";
-import SHOP_DATA from "./shopdata.js";
+import Signin from "./components/screens/Signin";
+import Shop from "./components/screens/Shop";
 import Checkout from "./components/Checkout";
 import Header from "./components/Header";
-import Signin from "./components/Signin";
-import Shop from "./components/screens/Shop";
+import SHOP_DATA from "./shopitems.js";
 
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { auth, createUserProfileDocument } from "./firebase/firebase.utils";

@@ -1,14 +1,14 @@
 button {
   padding: 12px 24px;
   border-radius: 4px;
-  border: 2px solid white;
+  border: 2px solid $pink;
   outline: none;
   font-size: 14px;
   letter-spacing: 2px;
   font-family: "Barrio", cursive;
-  font-weight: 300;
   text-transform: uppercase;
-  color: black;
+  display: block;
+  background-color: transparent;
   cursor: pointer;
   &:hover {
     color: white;
@@ -17,16 +17,9 @@ button {
     border-color: $pink;
   }
 }
-
 .button-gray {
   border-color: $lightgray;
   background-color: $lightgray;
-  color: black;
-  &:hover {
-    border-color: $pink;
-    background-color: $pink;
-    color: white;
-  }
 }
 .button-black {
   background-color: black;
@@ -35,15 +28,20 @@ button {
   border-radius: 0;
   &:hover {
     border-color: $pink;
-    background-color: $pink;
   }
 }
 .button-pink {
+  border-color: $pink;
   background-color: $pink;
   color: white;
   &:hover {
-    border-color: $pink;
-    background-color: $pink;
+    background-color: transparent;
+    color: $pink;
+  }
+}
+.button-pink-inverted {
+  color: $pink;
+  &:hover {
   }
 }
 
@@ -69,7 +67,7 @@ button {
   padding: 8px 16px;
   color: $lightgray;
   background-color: $blue;
-  margin: 0 4px;
+  margin: 4px;
   border-radius: 4px;
   letter-spacing: 1px;
   font-family: "Barrio", cursive;

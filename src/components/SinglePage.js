@@ -14,22 +14,22 @@ const SinglePage = ({ match, collections, onItemAdd }) => {
       <div className="menu-item-parent singular">
         <div
           key={item.id}
-          className="menu-item singular flex"
-          style={{ maxWidth: 648 }}
+          className="menu-item singular flex-wrap"
+          style={{ maxWidth: 720 }}
         >
           <div>
             <img
-              src={cactus}
+              src={item.imageUrl}
               alt="man in coffee"
-              style={{ width: 300, height: 400 }}
+              style={{ maxWidth: 320, height: 460 }}
               className="image-container contain bg-gray"
             />
           </div>
-          <div className="padding">
+          <div className="padding" style={{ maxWidth: 352 }}>
             <p>face-masks</p>
-            <h3>
+            <h2>
               {item.name} <span className="blue">${item.price}</span>
-            </h3>
+            </h2>
             <div
               className="tag added"
               style={{ position: "static", marginBottom: 24, marginTop: 4 }}

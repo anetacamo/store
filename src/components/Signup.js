@@ -1,9 +1,6 @@
 import React from "react";
-
 import Input from "./Input";
-
 import { auth, createUserProfileDocument } from "../firebase/firebase.utils";
-
 import "../main.scss";
 
 class Signup extends React.Component {
@@ -51,11 +48,14 @@ class Signup extends React.Component {
   render() {
     const { displayName, email, password, confirmedPassword } = this.state;
     return (
-      <div className="padding">
+      <div className="padding flex-auto signup-box">
         <div>
           <h1>Sign Up</h1>
-          <p>Do not have an account?</p>
-          <p>Sign up with your email and password</p>
+          <p>
+            Do not have an account?
+            <br />
+            Sign up with your email and password
+          </p>
           <div className="line"></div>
         </div>
 
@@ -80,7 +80,7 @@ class Signup extends React.Component {
             value={confirmedPassword}
             onChange={this.handleChange}
           />
-          <div>
+          <div className="button-container">
             <button type="submit">Sign Up</button>
           </div>
         </form>

@@ -1,11 +1,10 @@
 import React from "react";
+import "../../main.scss";
 
-import Input from "../components/Input";
-import Signup from "../components/Signup";
+import Input from "../Input";
+import Signup from "../Signup";
 
-import { auth, signInWithGoogle } from "../firebase/firebase.utils";
-
-import "../main.scss";
+import { auth, signInWithGoogle } from "../../firebase/firebase.utils";
 
 class Signin extends React.Component {
   constructor() {
@@ -38,12 +37,15 @@ class Signin extends React.Component {
 
   render() {
     return (
-      <div className="flex-center">
-        <div className="align-right padding bg-gray">
+      <div className="flex-center flex-wrap">
+        <div className="bg-gray login-box">
           <div>
             <h1>Log in</h1>
-            <p>I have an account.</p>
-            <p>Sign up with your email and password</p>
+            <p>
+              I have an account.
+              <br />
+              Sign up with your email and password
+            </p>
             <div className="line" style={{ marginLeft: "auto" }}></div>
           </div>
 
@@ -58,16 +60,9 @@ class Signin extends React.Component {
               value={this.state.password}
               onChange={this.handleChange}
             />
-            <div>
+            <div className="button-container">
               <button type="submit">Log in</button>
-              <button
-                className="button-pink"
-                onClick={signInWithGoogle}
-                style={{
-                  marginRight: "0",
-                  backgroundColor: "white",
-                }}
-              >
+              <button className="button-pink" onClick={signInWithGoogle}>
                 Log in with Google
               </button>
             </div>
