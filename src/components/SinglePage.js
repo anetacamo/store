@@ -1,7 +1,6 @@
 import React from "react";
 import "../main.scss";
 
-import cactus from "../images/soc.jpg";
 import { FaHeart } from "react-icons/fa";
 
 const SinglePage = ({ match, collections, onItemAdd }) => {

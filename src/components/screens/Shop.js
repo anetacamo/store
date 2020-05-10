@@ -9,9 +9,15 @@ import Banner from "../Banner";
 import Categories from "../Categories";
 
 import { Switch, Route } from "react-router-dom";
+import WithSpinner from "../WithSpinner";
+
+const CollectionPreviewWithSpinner = WithSpinner(CollectionPreview);
+const CollectionWithSpinner = WithSpinner(Collection);
+const CategoriesWithSpinner = WithSpinner(Categories);
 
 // here we have access to match object because Shop is defined in tge Route object. that means, is automatically assigned with match, location, history as props
-const Shop = ({ collections, onItemAdd, match }) => {
+const Shop = ({ collections, onItemAdd, match, isLoading }) => {
+  console.log(isLoading);
   return (
     <div>
       <Switch>
@@ -19,8 +25,9 @@ const Shop = ({ collections, onItemAdd, match }) => {
           exact
           path={`${match.path}/:collectionId`}
           render={(props) => (
-            <Collection
+            <CollectionWithSpinner
               exact
+              isLoading={isLoading}
               {...props}
               collections={collections}
               onItemAdd={onItemAdd.bind(this)}
@@ -40,11 +47,10 @@ const Shop = ({ collections, onItemAdd, match }) => {
         />
         <Route path={match.path} render={() => <Banner pageName="SHOP" />} />
       </Switch>
-
       <Tags collections={collections} />
-      <Categories collections={collections} />
-
-      <CollectionPreview
+      <CategoriesWithSpinner collections={collections} isLoading={isLoading} />
+      <CollectionPreviewWithSpinner
+        isLoading={isLoading}
         collections={collections}
         onItemAdd={onItemAdd.bind(this)}
       />

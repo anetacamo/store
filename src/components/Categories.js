@@ -1,7 +1,6 @@
 import React from "react";
 import "../main.scss";
 import { Link } from "react-router-dom";
-import cactus from "../images/cactuses.png";
 
 const Categories = ({ collections }) => {
   return (

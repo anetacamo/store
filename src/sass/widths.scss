@@ -95,6 +95,11 @@
 .flex-auto {
   flex: auto;
 }
+.flex-cc {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
 .line {
   width: 60px;

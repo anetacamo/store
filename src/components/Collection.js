@@ -2,7 +2,6 @@ import React from "react";
 import "../main.scss";
 
 import coffee from "../images/birthdaysurprise.jpg";
-import cactus from "../images/soc.jpg";
 
 import { Link } from "react-router-dom";
 import { FaHeart } from "react-icons/fa";

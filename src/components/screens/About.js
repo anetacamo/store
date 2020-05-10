@@ -15,6 +15,7 @@ const About = () => {
         <b>
           <a
             target="_blank"
+            rel="noopener noreferrer"
             href="https://www.udemy.com/course/complete-react-developer-zero-to-mastery"
           >
             course{" "}

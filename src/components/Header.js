@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 import logo from "../images/anetacamo_white.png";
 import ShopIcon from "../components/ShopIcon";
 import CartDropdown from "../components/CartDropdown";
@@ -7,7 +8,7 @@ import CartDropdown from "../components/CartDropdown";
 import "../main.scss";
 import { auth } from "../firebase/firebase.utils";
 
-const Header = ({ currentuser, cartItems }) => {
+const Header = ({ currentUser, cartItems }) => {
   const [open, setOpen] = useState(false);
 
   return (
@@ -18,9 +19,9 @@ const Header = ({ currentuser, cartItems }) => {
         </Link>
 
         <div className="menu-links">
-          {currentuser ? (
+          {currentUser ? (
             <li>
-              Hey <span className="pink bold">{currentuser.displayName}</span>
+              Hey <span className="pink bold">{currentUser.displayName}</span>
             </li>
           ) : null}
           <Link to="/shop">
@@ -29,7 +30,7 @@ const Header = ({ currentuser, cartItems }) => {
           <Link to="/about">
             <li>About</li>
           </Link>
-          {currentuser ? (
+          {currentUser ? (
             <li onClick={() => auth.signOut()}>Sign Out</li>
           ) : (
             <Link to="/signin">
@@ -52,4 +53,9 @@ const Header = ({ currentuser, cartItems }) => {
   );
 };
 
-export default Header;
+// state is a root reducer here. The top level root reducer
+const mapStateToProps = (state) => ({
+  currentUser: state.user.currentUser,
+});
+
+export default connect(mapStateToProps)(Header);

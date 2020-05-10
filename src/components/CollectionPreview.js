@@ -1,6 +1,5 @@
 import React from "react";
 import "../main.scss";
-import logo from "../images/anetacamo_people.png";
 import { FaHeart, FaHandPointLeft, FaHandPointRight } from "react-icons/fa";
 import { Link } from "react-router-dom";
 

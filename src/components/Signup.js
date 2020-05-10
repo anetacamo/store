@@ -6,7 +6,6 @@ import "../main.scss";
 class Signup extends React.Component {
   constructor() {
     super();
-
     this.state = {
       displayName: "",
       email: "",

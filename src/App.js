@@ -1,5 +1,6 @@
 import React from "react";
 import "./main.scss";
+import { connect } from "react-redux";
 
 import About from "./components/screens/About";
 import Homepage from "./components/screens/Homepage";
@@ -7,55 +8,66 @@ import Signin from "./components/screens/Signin";
 import Shop from "./components/screens/Shop";
 import Checkout from "./components/Checkout";
 import Header from "./components/Header";
-import SHOP_DATA from "./shopitems.js";
 
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { auth, createUserProfileDocument } from "./firebase/firebase.utils";
+import {
+  auth,
+  createUserProfileDocument,
+  firestore,
+  convertCollections,
+} from "./firebase/firebase.utils";
+import { setCurrentUser } from "./redux/user/user.actions";
 
 class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      currentuser: null,
       cartItems: [],
-      collections: SHOP_DATA,
+      collections: [],
+      isLoading: true,
     };
   }
 
   // FIREBASE GOOGLE SIGNUP
-  //inside componentDidMount we used to fetch
-  //Now once code calls fetch it wont fetch again untill that function (cDM) is called again!
+  // inside componentDidMount we used to fetch
+  // Now once code calls fetch it wont fetch again untill that function (cDM) is called again!
   // BUT now we do not wanna remount our app!
   // we only wanna know when the user signs in
-  // auth object allows that!
-  // this connection is always open from when the compent Mounts!
-  // THEREFORE WE NEED to close this open connection when components unMounts!
+  // auth object allows that
+  // this connection is always open from when the compent Mounts
+  // THEREFORE WE NEED to close this open connection when components unMounts
   unsubscribeFromAuth = null;
+  unsubscribeFromSnapshot = null;
 
   componentDidMount() {
+    const { setCurrentUser } = this.props;
     this.unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
       if (userAuth) {
         const userRef = await createUserProfileDocument(userAuth);
 
         // here we are listening to any changes to user data;
         userRef.onSnapshot((snapShot) => {
-          this.setState({
-            currentuser: {
-              id: snapShot.id,
-              ...snapShot.data(),
-            }, //, () => console.log(something)
+          setCurrentUser({
+            id: snapShot.id,
+            ...snapShot.data(),
           });
-          // console.log must go after the setState ONLY as a callback function.
-          // setState is ASYNCHRONOUS - If we call other function rigth after the setState - setState may not be finsihed yet
-          // So we have to pass it as a second function - as a parameter in SetState.
-          // then state will call it after it is fully propagated
         });
-      } else {
-        // when the used logs out, we set a userAuth to null
-        this.setState({ currentuser: userAuth });
       }
+      // when the used logs out, we set a userAuth to null
+      setCurrentUser(userAuth);
     });
+
+    const collectionRef = firestore.collection("colections");
+    this.unsubscribeFromSnapshot = collectionRef.onSnapshot(
+      async (snapShot) => {
+        const collectionMap = convertCollections(snapShot);
+        const collectionArray = Object.values(collectionMap);
+        this.setState({ collections: collectionArray });
+        this.setState({ isLoading: false });
+      }
+    );
   }
+
   componentWillUnmount() {
     this.unsubscribeFromAuth();
   }
@@ -107,10 +119,7 @@ class App extends React.Component {
       //an empty url is just slash, homepage will be rendered.
       <Router>
         <div className="App">
-          <Header
-            currentuser={this.state.currentuser}
-            cartItems={this.state.cartItems}
-          />
+          <Header cartItems={this.state.cartItems} />
 
           <div className="container">
             <Switch>
@@ -122,6 +131,7 @@ class App extends React.Component {
                     onItemAdd={this.addItemToCart.bind(this)}
                     cartItems={this.state.cartItems}
                     collections={this.state.collections}
+                    isLoading={this.state.isLoading}
                   />
                 )}
               />
@@ -142,7 +152,11 @@ class App extends React.Component {
               <Route
                 path="/"
                 render={(props) => (
-                  <Homepage {...props} collections={this.state.collections} />
+                  <Homepage
+                    {...props}
+                    collections={this.state.collections}
+                    isLoading={this.state.isLoading}
+                  />
                 )}
               />
             </Switch>
@@ -153,4 +167,11 @@ class App extends React.Component {
   }
 }
 
-export default App;
+//the first agument is null, we do not need any state from our reducer here.
+//second arg. is a function(mapDispachToProps) we get a dispactch and return an object where the prop name will be any name that will dispatches the new action thar we pass (set Current User)
+//dispach is like "whatever you passing me dude, is going to be an action object that im gonna pass to every reducer"
+const mapDispachToProps = (dispatch) => ({
+  setCurrentUser: (user) => dispatch(setCurrentUser(user)),
+});
+
+export default connect(null, mapDispachToProps)(App);
