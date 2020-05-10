@@ -9,7 +9,12 @@ import Shop from "./components/screens/Shop";
 import Checkout from "./components/Checkout";
 import Header from "./components/Header";
 
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect,
+} from "react-router-dom";
 import {
   auth,
   createUserProfileDocument,
@@ -136,7 +141,13 @@ class App extends React.Component {
                 )}
               />
               <Route path="/about" component={About} />
-              <Route path="/signin" component={Signin} />
+              <Route
+                exact
+                path="/signin"
+                render={() =>
+                  this.props.currentUser ? <Redirect to="/" /> : <Signin />
+                }
+              />
               <Route
                 path="/checkout"
                 render={(props) => (
@@ -170,8 +181,12 @@ class App extends React.Component {
 //the first agument is null, we do not need any state from our reducer here.
 //second arg. is a function(mapDispachToProps) we get a dispactch and return an object where the prop name will be any name that will dispatches the new action thar we pass (set Current User)
 //dispach is like "whatever you passing me dude, is going to be an action object that im gonna pass to every reducer"
+const mapStateToProps = ({ user }) => ({
+  currentUser: user.currentUser,
+});
+
 const mapDispachToProps = (dispatch) => ({
   setCurrentUser: (user) => dispatch(setCurrentUser(user)),
 });
 
-export default connect(null, mapDispachToProps)(App);
+export default connect(mapStateToProps, mapDispachToProps)(App);
