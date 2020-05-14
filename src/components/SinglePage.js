@@ -5,8 +5,10 @@ import { FaHeart } from "react-icons/fa";
 
 const SinglePage = ({ match, collections, onItemAdd }) => {
   const itemid = match.params.itemId;
-  const itemArray = collections.map((c) => c.items.find((i) => i.id == itemid));
-  const item = itemArray.find((i) => i != undefined);
+  const itemArray = collections.map((c) =>
+    c.items.find((i) => i.id === itemid)
+  );
+  const item = itemArray.find((i) => i !== undefined);
 
   return (
     <div className="padding-vert">

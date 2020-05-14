@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./main.scss";
 import { connect } from "react-redux";
 
@@ -23,30 +23,13 @@ import {
 } from "./firebase/firebase.utils";
 import { setCurrentUser } from "./redux/user/user.actions";
 
-class App extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      cartItems: [],
-      collections: [],
-      isLoading: true,
-    };
-  }
+const App = ({ currentUser, setCurrentUser }) => {
+  const [isLoading, setLoading] = useState(true);
+  const [collections, setCollections] = useState([]);
+  const [cartItems, setCartItems] = useState([]);
 
-  // FIREBASE GOOGLE SIGNUP
-  // inside componentDidMount we used to fetch
-  // Now once code calls fetch it wont fetch again untill that function (cDM) is called again!
-  // BUT now we do not wanna remount our app!
-  // we only wanna know when the user signs in
-  // auth object allows that
-  // this connection is always open from when the compent Mounts
-  // THEREFORE WE NEED to close this open connection when components unMounts
-  unsubscribeFromAuth = null;
-  unsubscribeFromSnapshot = null;
-
-  componentDidMount() {
-    const { setCurrentUser } = this.props;
-    this.unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
+  useEffect(() => {
+    const unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
       if (userAuth) {
         const userRef = await createUserProfileDocument(userAuth);
 
@@ -62,24 +45,36 @@ class App extends React.Component {
       setCurrentUser(userAuth);
     });
 
-    const collectionRef = firestore.collection("colections");
-    this.unsubscribeFromSnapshot = collectionRef.onSnapshot(
+    //here we will listen to snapshoot. We are subscribing to collections
+    const unsubscribeFromCollections = firestore.collection("colections").onSnapshot(
       async (snapShot) => {
         const collectionMap = convertCollections(snapShot);
         const collectionArray = Object.values(collectionMap);
-        this.setState({ collections: collectionArray });
-        this.setState({ isLoading: false });
+        setCollections(collectionArray);
+        setLoading(false);
       }
     );
-  }
+    // useEffect - a cleanup function - fired when ComponentWillUnmount!
+    // we unsubscribe here! bye
+    return () => {
+      unsubscribeFromAuth();
+      unsubscribeFromCollections():
+    };
+    // here if we pass the empty array we only intialize the useEffect when the component is Mounted plus since return fnc is mentioned also when it unMounts.
+  }, [setCurrentUser]);
 
-  componentWillUnmount() {
-    this.unsubscribeFromAuth();
-  }
+  // FIREBASE GOOGLE SIGNUP
+  // inside componentDidMount we used to fetch
+  // Now once code calls fetch it wont fetch again untill that function (cDM) is called again!
+  // BUT now we do not wanna remount our app!
+  // we only wanna know when the user signs in
+  // auth object allows that
+  // this connection is always open from when the compent Mounts
+  // THEREFORE WE NEED to close this open connection when components unMounts
+
   // FIREBASE GOOGLE SIGNUP END
 
-  addItemToCart = (item) => {
-    const cartItems = this.state.cartItems;
+  const addItemToCart = (item) => {
     const existingCartItem = cartItems.find(
       (cartItem) => cartItem.id === item.id
     );
@@ -90,93 +85,87 @@ class App extends React.Component {
           ? { ...item, quantity: cartItem.quantity + 1 }
           : cartItem
       );
-      this.setState({ cartItems: cartItemsWithExisting });
+      setCartItems(cartItemsWithExisting);
     } else {
-      this.setState({ cartItems: [...cartItems, { ...item, quantity: 1 }] });
+      setCartItems([...cartItems, { ...item, quantity: 1 }]);
     }
   };
 
-  removeItemFromCart = (item) => {
-    const cartItems = this.state.cartItems;
+  const removeItemFromCart = (item) => {
     const itemToDeduct = cartItems.find((cartItem) => cartItem.id === item.id);
     if (itemToDeduct.quantity === 1) {
-      this.deleteItemFromCart(item);
+      deleteItemFromCart(item);
     } else {
       const updatedCartItems = cartItems.map((cartItem) =>
         cartItem.id === item.id
           ? { ...item, quantity: cartItem.quantity - 1 }
           : cartItem
       );
-      this.setState({ cartItems: updatedCartItems });
+      setCartItems(updatedCartItems);
     }
   };
 
-  deleteItemFromCart = (item) => {
-    const cartItems = this.state.cartItems;
+  const deleteItemFromCart = (item) => {
     const updatedCartItems = cartItems.filter(
       (cartItem) => cartItem.id !== item.id
     );
-    this.setState({ cartItems: updatedCartItems });
+    setCartItems(updatedCartItems);
   };
 
-  render() {
-    return (
-      //an empty url is just slash, homepage will be rendered.
-      <Router>
-        <div className="App">
-          <Header cartItems={this.state.cartItems} />
+  return (
+    //an empty url is just slash, homepage will be rendered.
+    <Router>
+      <div className="App">
+        <Header cartItems={cartItems} />
 
-          <div className="container">
-            <Switch>
-              <Route
-                path="/shop"
-                render={(props) => (
-                  <Shop
-                    {...props}
-                    onItemAdd={this.addItemToCart.bind(this)}
-                    cartItems={this.state.cartItems}
-                    collections={this.state.collections}
-                    isLoading={this.state.isLoading}
-                  />
-                )}
-              />
-              <Route path="/about" component={About} />
-              <Route
-                exact
-                path="/signin"
-                render={() =>
-                  this.props.currentUser ? <Redirect to="/" /> : <Signin />
-                }
-              />
-              <Route
-                path="/checkout"
-                render={(props) => (
-                  <Checkout
-                    {...props}
-                    onItemAdd={this.addItemToCart.bind(this)}
-                    cartItems={this.state.cartItems}
-                    onItemRemove={this.removeItemFromCart.bind(this)}
-                    onItemDelete={this.deleteItemFromCart.bind(this)}
-                  />
-                )}
-              />
-              <Route
-                path="/"
-                render={(props) => (
-                  <Homepage
-                    {...props}
-                    collections={this.state.collections}
-                    isLoading={this.state.isLoading}
-                  />
-                )}
-              />
-            </Switch>
-          </div>
+        <div className="container">
+          <Switch>
+            <Route
+              path="/shop"
+              render={(props) => (
+                <Shop
+                  {...props}
+                  onItemAdd={addItemToCart.bind(this)}
+                  cartItems={cartItems}
+                  collections={collections}
+                  isLoading={isLoading}
+                />
+              )}
+            />
+            <Route path="/about" component={About} />
+            <Route
+              exact
+              path="/signin"
+              render={() => (currentUser ? <Redirect to="/" /> : <Signin />)}
+            />
+            <Route
+              path="/checkout"
+              render={(props) => (
+                <Checkout
+                  {...props}
+                  onItemAdd={addItemToCart.bind(this)}
+                  cartItems={cartItems}
+                  onItemRemove={removeItemFromCart.bind(this)}
+                  onItemDelete={deleteItemFromCart.bind(this)}
+                />
+              )}
+            />
+            <Route
+              path="/"
+              render={(props) => (
+                <Homepage
+                  {...props}
+                  collections={collections}
+                  isLoading={isLoading}
+                />
+              )}
+            />
+          </Switch>
         </div>
-      </Router>
-    );
-  }
-}
+      </div>
+    </Router>
+  );
+};
 
 //the first agument is null, we do not need any state from our reducer here.
 //second arg. is a function(mapDispachToProps) we get a dispactch and return an object where the prop name will be any name that will dispatches the new action thar we pass (set Current User)

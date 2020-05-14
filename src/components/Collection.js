@@ -11,7 +11,7 @@ import { FaHeart } from "react-icons/fa";
 
 const Collection = ({ match, collections, onItemAdd }) => {
   const collectionName = match.params.collectionId;
-  const collection = collections.find((c) => c.routeName == collectionName);
+  const collection = collections.find((c) => c.routeName === collectionName);
 
   let collectionList = [];
   let result = (

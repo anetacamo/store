@@ -17,7 +17,6 @@ const CategoriesWithSpinner = WithSpinner(Categories);
 
 // here we have access to match object because Shop is defined in tge Route object. that means, is automatically assigned with match, location, history as props
 const Shop = ({ collections, onItemAdd, match, isLoading }) => {
-  console.log(isLoading);
   return (
     <div>
       <Switch>
