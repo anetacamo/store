@@ -1,21 +1,20 @@
 import React from "react";
-import "../main.scss";
+import "../../main.scss";
 import { withRouter } from "react-router-dom";
 import { FaTimes, FaAngleLeft, FaAngleRight } from "react-icons/fa";
-import StripeButton from "./StripeButton";
+import StripeButton from "../StripeButton";
+import { addItem, removeItem, deleteItem } from "../../redux/cart/cart.actions";
+import { compose } from "redux";
+import { connect } from "react-redux";
 
 const Checkout = ({
   cartItems,
   history,
-  onItemDelete,
-  onItemRemove,
-  onItemAdd,
+  addItem,
+  removeItem,
+  deleteItem,
+  itemsTotalPrice,
 }) => {
-  const itemsTotalPrice = cartItems.reduce(
-    (totalCartItems, cartItem) =>
-      totalCartItems + cartItem.quantity * cartItem.price,
-    0
-  );
   return (
     <div style={{ maxWidth: 580 }}>
       <h1>Your shopping bag items</h1>
@@ -30,7 +29,7 @@ const Checkout = ({
       ) : null}
       {cartItems.map((item) => (
         <div className="flex relative">
-          <div class="close-button" onClick={() => onItemDelete(item)}>
+          <div class="close-button" onClick={() => deleteItem(item)}>
             <FaTimes />
           </div>
           <img
@@ -42,11 +41,6 @@ const Checkout = ({
             <h4>
               {item.name} | <span className="pink">${item.price}</span>
             </h4>
-            <p>
-              an optional pretty short desc of the item.
-              <br />I dont even know if its enough space, we'll see. its
-              optional, tho.
-            </p>
             <div>
               <h4>
                 Quantity: <span className="pink">{item.quantity}</span>
@@ -56,11 +50,11 @@ const Checkout = ({
             <div>
               <FaAngleLeft
                 className="plus-minus plus"
-                onClick={() => onItemRemove(item)}
+                onClick={() => removeItem(item)}
               />
               <FaAngleRight
                 className="plus-minus minus"
-                onClick={() => onItemAdd(item)}
+                onClick={() => addItem(item)}
               />
             </div>
           </div>
@@ -72,7 +66,6 @@ const Checkout = ({
             <h2>Total</h2>
             <h2>${itemsTotalPrice}</h2>
           </div>
-          <button>Go to Checkout</button>
           <StripeButton price={itemsTotalPrice} />
         </div>
       ) : null}
@@ -81,4 +74,22 @@ const Checkout = ({
   );
 };
 
-export default withRouter(Checkout);
+const mapStateToProps = ({ cart: { cartItems } }) => ({
+  itemsTotalPrice: cartItems.reduce(
+    (totalCartItems, cartItem) =>
+      totalCartItems + cartItem.quantity * cartItem.price,
+    0
+  ),
+  cartItems: cartItems,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  addItem: (item) => dispatch(addItem(item)),
+  removeItem: (item) => dispatch(removeItem(item)),
+  deleteItem: (item) => dispatch(deleteItem(item)),
+});
+
+export default compose(
+  withRouter,
+  connect(mapStateToProps, mapDispatchToProps)
+)(Checkout);

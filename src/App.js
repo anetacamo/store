@@ -6,7 +6,7 @@ import About from "./components/screens/About";
 import Homepage from "./components/screens/Homepage";
 import Signin from "./components/screens/Signin";
 import Shop from "./components/screens/Shop";
-import Checkout from "./components/Checkout";
+import Checkout from "./components/screens/Checkout";
 import Header from "./components/Header";
 
 import {
@@ -26,7 +26,6 @@ import { setCurrentUser } from "./redux/user/user.actions";
 const App = ({ currentUser, setCurrentUser }) => {
   const [isLoading, setLoading] = useState(true);
   const [collections, setCollections] = useState([]);
-  const [cartItems, setCartItems] = useState([]);
 
   useEffect(() => {
     const unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
@@ -44,21 +43,20 @@ const App = ({ currentUser, setCurrentUser }) => {
       // when the used logs out, we set a userAuth to null
       setCurrentUser(userAuth);
     });
-
-    //here we will listen to snapshoot. We are subscribing to collections
-    const unsubscribeFromCollections = firestore.collection("colections").onSnapshot(
-      async (snapShot) => {
+    //here we will listen to snapshot. We are subscribing to collections
+    const unsubscribeFromCollections = firestore
+      .collection("colections")
+      .onSnapshot(async (snapShot) => {
         const collectionMap = convertCollections(snapShot);
         const collectionArray = Object.values(collectionMap);
         setCollections(collectionArray);
         setLoading(false);
-      }
-    );
+      });
     // useEffect - a cleanup function - fired when ComponentWillUnmount!
     // we unsubscribe here! bye
     return () => {
       unsubscribeFromAuth();
-      unsubscribeFromCollections():
+      unsubscribeFromCollections();
     };
     // here if we pass the empty array we only intialize the useEffect when the component is Mounted plus since return fnc is mentioned also when it unMounts.
   }, [setCurrentUser]);
@@ -72,65 +70,17 @@ const App = ({ currentUser, setCurrentUser }) => {
   // this connection is always open from when the compent Mounts
   // THEREFORE WE NEED to close this open connection when components unMounts
 
-  // FIREBASE GOOGLE SIGNUP END
-
-  const addItemToCart = (item) => {
-    const existingCartItem = cartItems.find(
-      (cartItem) => cartItem.id === item.id
-    );
-
-    if (existingCartItem) {
-      const cartItemsWithExisting = cartItems.map((cartItem) =>
-        cartItem.id === item.id
-          ? { ...item, quantity: cartItem.quantity + 1 }
-          : cartItem
-      );
-      setCartItems(cartItemsWithExisting);
-    } else {
-      setCartItems([...cartItems, { ...item, quantity: 1 }]);
-    }
-  };
-
-  const removeItemFromCart = (item) => {
-    const itemToDeduct = cartItems.find((cartItem) => cartItem.id === item.id);
-    if (itemToDeduct.quantity === 1) {
-      deleteItemFromCart(item);
-    } else {
-      const updatedCartItems = cartItems.map((cartItem) =>
-        cartItem.id === item.id
-          ? { ...item, quantity: cartItem.quantity - 1 }
-          : cartItem
-      );
-      setCartItems(updatedCartItems);
-    }
-  };
-
-  const deleteItemFromCart = (item) => {
-    const updatedCartItems = cartItems.filter(
-      (cartItem) => cartItem.id !== item.id
-    );
-    setCartItems(updatedCartItems);
-  };
-
   return (
     //an empty url is just slash, homepage will be rendered.
     <Router>
       <div className="App">
-        <Header cartItems={cartItems} />
+        <Header />
 
         <div className="container">
           <Switch>
             <Route
               path="/shop"
-              render={(props) => (
-                <Shop
-                  {...props}
-                  onItemAdd={addItemToCart.bind(this)}
-                  cartItems={cartItems}
-                  collections={collections}
-                  isLoading={isLoading}
-                />
-              )}
+              render={(props) => <Shop {...props} collections={collections} />}
             />
             <Route path="/about" component={About} />
             <Route
@@ -140,15 +90,7 @@ const App = ({ currentUser, setCurrentUser }) => {
             />
             <Route
               path="/checkout"
-              render={(props) => (
-                <Checkout
-                  {...props}
-                  onItemAdd={addItemToCart.bind(this)}
-                  cartItems={cartItems}
-                  onItemRemove={removeItemFromCart.bind(this)}
-                  onItemDelete={deleteItemFromCart.bind(this)}
-                />
-              )}
+              render={(props) => <Checkout {...props} />}
             />
             <Route
               path="/"

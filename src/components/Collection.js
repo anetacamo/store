@@ -4,12 +4,15 @@ import "../main.scss";
 import coffee from "../images/birthdaysurprise.jpg";
 
 import { Link } from "react-router-dom";
+import { addItem } from "../redux/cart/cart.actions";
+import { connect } from "react-redux";
+
 import { FaHeart } from "react-icons/fa";
 
 // when use find we pass this function on EVERY element
 // data normalisation: storing lists of elements inside of an object instead of an array
 
-const Collection = ({ match, collections, onItemAdd }) => {
+const Collection = ({ match, collections, addItem }) => {
   const collectionName = match.params.collectionId;
   const collection = collections.find((c) => c.routeName === collectionName);
 
@@ -42,7 +45,7 @@ const Collection = ({ match, collections, onItemAdd }) => {
               <FaHeart />
               <h3>{item.name}</h3>
               <h3 className="blue">${item.price}</h3>
-              <div className="tag" onClick={() => onItemAdd(item)}>
+              <div className="tag" onClick={() => addItem(item)}>
                 Add to cart
               </div>
             </div>
@@ -53,4 +56,8 @@ const Collection = ({ match, collections, onItemAdd }) => {
   );
 };
 
-export default Collection;
+const mapDispatchToProps = (dispatch) => ({
+  addItem: (item) => dispatch(addItem(item)),
+});
+
+export default connect(null, mapDispatchToProps)(Collection);

@@ -1,9 +1,10 @@
 import React from "react";
 import "../main.scss";
-import { FaHeart, FaHandPointLeft, FaHandPointRight } from "react-icons/fa";
+import CollectionItem from "../components/CollectionItem";
+import { FaHandPointLeft, FaHandPointRight } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
-const CollectionPreview = ({ collections, onItemAdd }) => {
+const CollectionPreview = ({ collections }) => {
   return (
     <div className="center padding-vert">
       <h1 className="center">Newest Items</h1>
@@ -18,21 +19,7 @@ const CollectionPreview = ({ collections, onItemAdd }) => {
             {collections[item].items
               .filter((item, idx) => idx < 4)
               .map((item) => (
-                <div className="menu-item center singular" key={item.id}>
-                  <Link to={`/shop/all/${item.id}`}>
-                    <img
-                      src={item.imageUrl}
-                      alt="man in coffee"
-                      className="image-container contain bg-gray"
-                    />
-                    <FaHeart />
-                    <h3>{item.name}</h3>
-                    <h3 className="blue">${item.price}</h3>
-                    <div className="tag" onClick={() => onItemAdd(item)}>
-                      Add to cart
-                    </div>
-                  </Link>
-                </div>
+                <CollectionItem key={item.id} item={item} />
               ))}
           </div>
         </div>

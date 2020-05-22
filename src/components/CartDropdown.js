@@ -3,10 +3,15 @@ import "../main.scss";
 import { withRouter } from "react-router-dom";
 import { FaTimes } from "react-icons/fa";
 
-const CartDropdown = ({ cartItems, toggleCartHidden, history }) => {
+import { compose } from "redux";
+import { connect } from "react-redux";
+import { setCartOpen } from "../redux/cart/cart.actions";
+import CartItem from "./CartItem";
+
+const CartDropdown = ({ cartItems, setCartOpen, history }) => {
   return (
     <div className="cart">
-      <div className="close-button" onClick={toggleCartHidden}>
+      <div className="close-button" onClick={setCartOpen}>
         <FaTimes />
       </div>
       {cartItems.length === 0 ? (
@@ -21,21 +26,7 @@ const CartDropdown = ({ cartItems, toggleCartHidden, history }) => {
         </div>
       ) : null}
       {cartItems.map((item) => (
-        <div className="cart-cont" key={item.id}>
-          <div className="flex">
-            <img
-              className="icon-image"
-              alt="man in coffee"
-              src={item.imageUrl}
-            />
-            <div className="container-desc">
-              <h4 class="pink">{item.name}</h4>
-              <h4>
-                {item.quantity ? item.quantity : "1"} x {item.price}$
-              </h4>
-            </div>
-          </div>
-        </div>
+        <CartItem item={item} key={item.id} />
       ))}
       {cartItems.length ? (
         <button
@@ -53,4 +44,15 @@ const CartDropdown = ({ cartItems, toggleCartHidden, history }) => {
   );
 };
 
-export default withRouter(CartDropdown);
+const mapDispatchToProps = (dispatch) => ({
+  setCartOpen: () => dispatch(setCartOpen()),
+});
+
+const mapStateToProps = ({ cart: { cartItems } }) => ({
+  cartItems: cartItems,
+});
+
+export default compose(
+  withRouter,
+  connect(mapStateToProps, mapDispatchToProps)
+)(CartDropdown);

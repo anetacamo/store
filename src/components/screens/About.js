@@ -11,9 +11,10 @@ const About = () => {
         I have been building this store from scratch as a excercise to get more
         used to some React features. It is filled up with random placeholders
         for now although one day I would love to use it for some products of
-        mine. <br></br> To build this I have been semi-following a tutorial on
-        Udemy.com. The data and images that are used to populate the store are
-        provided by the{" "}
+        mine. <br />
+        <br /> To build this I have been semi-following a tutorial on Udemy.com.
+        The data and images that are used to populate the store are provided by
+        the{" "}
         <b>
           <a
             target="_blank"
@@ -25,7 +26,9 @@ const About = () => {
         </b>
         <br />
         <br />
-        For navigation I used <b>react-router-dom</b>.
+        For navigation I used <b>react-router-dom</b>.<br />I also implemented{" "}
+        <b>Redux</b> for some of the features. <br />
+        For some other state-like instances I used <b>React Hooks</b>.
         <br />
         <br />I implemented <b>Firebase</b> for storing data about users (just
         the display name of choice and e-mail at the moment. I will not
@@ -35,7 +38,7 @@ const About = () => {
         only have limited amount in stock
         <br />
         <br />
-        For cascading stylesheets I have been using sass <br />
+        For cascading stylesheets I have been using <b>sass</b> <br />
         <br />
         For payment I used <b>Stripe</b>. It is implemented at the checkout
         page, it works but only as a test version so none real payments can be
@@ -43,7 +46,11 @@ const About = () => {
         <br />
         This project has been continuously published to{" "}
         <b>
-          <a href="https://github.com/anetacamo/store" target="_blank">
+          <a
+            href="https://github.com/anetacamo/store"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             this github repo.
           </a>
         </b>

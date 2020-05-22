@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import logo from "../images/anetacamo_white.png";
@@ -8,9 +8,7 @@ import CartDropdown from "../components/CartDropdown";
 import "../main.scss";
 import { auth } from "../firebase/firebase.utils";
 
-const Header = ({ currentUser, cartItems }) => {
-  const [open, setOpen] = useState(false);
-
+const Header = ({ currentUser, cartOpen }) => {
   return (
     <div className="bg-black">
       <div className="menu">
@@ -37,25 +35,18 @@ const Header = ({ currentUser, cartItems }) => {
               <li>Sign In</li>
             </Link>
           )}
-          <ShopIcon
-            cartItems={cartItems}
-            toggleCartHidden={() => setOpen((open) => !open)}
-          />
+          <ShopIcon />
         </div>
-        {open ? (
-          <CartDropdown
-            cartItems={cartItems}
-            toggleCartHidden={() => setOpen((open) => !open)}
-          />
-        ) : null}
+        {cartOpen ? <CartDropdown /> : null}
       </div>
     </div>
   );
 };
 
 // state is a root reducer here. The top level root reducer
-const mapStateToProps = (state) => ({
-  currentUser: state.user.currentUser,
+const mapStateToProps = ({ user: { currentUser }, cart: { cartOpen } }) => ({
+  currentUser,
+  cartOpen,
 });
 
 export default connect(mapStateToProps)(Header);
